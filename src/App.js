@@ -3,7 +3,7 @@ import { Navbar } from "./components/Navbar";
 import { Home } from "./components/Home";
 import { ImgClassifier } from "./components/ImgClassifier";
 // REACT UTILITIES
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
 	BrowserRouter,
 	Routes,
