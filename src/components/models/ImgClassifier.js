@@ -2,11 +2,14 @@ import React, { useState, useEffect} from 'react'
 
 
 export const ImgClassifier = ({props}) => {
+	// MAIN STATES
 	const page = window.location.href.split("/").pop()
 	const opt = props.options[page];
 	const c = props.c;
 	const isPortrait = props.isPortrait;
+	document.title = props.document_title + " - " + opt.title
 
+	// PAGE STATES
 	const [selected_image, set_selected_image] = useState(null);
 	const [mode, set_mode] = useState('browse'); //url | browse | random
 	const [loading, set_loading] = useState(false);
@@ -17,7 +20,6 @@ export const ImgClassifier = ({props}) => {
 		set_output(null);
 	}, [mode, selected_image])
 
-	document.title = props.document_title + " - " + opt.title
 
 	const reduce_img = (full_img_base64) => {
 		let w = opt.img_size[0]

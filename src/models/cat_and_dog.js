@@ -1,10 +1,14 @@
 export default class CatAndDog {
 
 	constructor () {
+		// MAIN STATES
 		this.name = "cat_and_dog"
+		this.title = "Cat Vs Dog Classifier"
+		this.desc = "This is a Binary Image Classifier that takes an image as input and tells if its a dog or a cat. Fetch an image and see what our models says about your picture, if it resembles more to a dog or a cat"
+
+		// PAGE STATES
 		this.n_classes = 2;
 		this.classes = ['Cat', 'Dog'];
-		this.title = "Cat Vs Dog Classifier"
 		this.random_imgs_url = []
 		// this.model_api = `http://127.0.0.1:8000/cat_and_dog`
 		this.model_api = `https://pymodels-api.herokuapp.com/cat_and_dog`
@@ -20,7 +24,6 @@ export default class CatAndDog {
 			this.random_imgs_url.push(this.src_url + `dog/dog_false/dog_${i}.jpg`)
 		}
 		this.orig_random_imgs_url = [...this.random_imgs_url]
-		this.desc = "This is a Binary Image Classifier that takes an image as input and tells if its a dog or a cat. Fetch an image and see what our models says about your picture, if it resembles more to a dog or a cat"
 	}
 
 	generate_random_image() {

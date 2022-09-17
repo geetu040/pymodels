@@ -1,7 +1,9 @@
 // COMPONENTS
 import { Navbar } from "./components/Navbar";
 import { Home } from "./components/Home";
-import { ImgClassifier } from "./components/ImgClassifier";
+import { ImgClassifier } from "./components/models/ImgClassifier"
+import { Recommender } from "./components/models/Recommender";
+
 // REACT UTILITIES
 import { useState } from "react";
 import {
@@ -9,14 +11,18 @@ import {
 	Routes,
 	Route,
 } from "react-router-dom";
+
 // MODELS
 import CatAndDog from "./models/cat_and_dog";
+import MovieRec from "./models/movie_rec";
 
-
+// CREATING MODEL INSTANCES
 const options = {
 	"cat_and_dog": new CatAndDog(),
+	"movie_rec": new MovieRec(),
 }
 
+// MAIN APP
 export default function App() {
 	const theme_colors = [
 		"blue", "red", "yellow", "purple",
@@ -39,6 +45,7 @@ export default function App() {
 
 	return (<BrowserRouter>
 
+		{/* <Navbar props={props} /> */}
 		<Routes>
 			<Route path="/" element={<>
 				<Navbar props={props} />
@@ -47,6 +54,10 @@ export default function App() {
 			<Route path="/cat_and_dog" element={<>
 				<Navbar props={props} />
 				<ImgClassifier props={props} />
+			</>}/>
+			<Route path="/movie_rec" element={<>
+				<Navbar props={props} />
+				<Recommender props={props} />
 			</>}/>
 		</Routes>
 
