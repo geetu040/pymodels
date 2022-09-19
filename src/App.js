@@ -1,8 +1,8 @@
 // COMPONENTS
 import { Navbar } from "./components/Navbar";
 import { Home } from "./components/Home";
-import { ImgClassifier } from "./components/models/ImgClassifier"
-import { Recommender } from "./components/models/Recommender";
+import { ImgClassifier } from "./components/pages/ImgClassifier"
+import { Recommender } from "./components/pages/Recommender";
 
 // REACT UTILITIES
 import { useState } from "react";
