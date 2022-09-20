@@ -41,6 +41,8 @@ export const Recommender = ({ props }) => {
 	useEffect(() => {
 		set_output(null);
 	}, [selected])
+
+	
 	
 
 	const filtered_titles = titles.filter((item)=>{return item.toLowerCase().includes(input)})
@@ -49,7 +51,7 @@ export const Recommender = ({ props }) => {
 		<div className={`bg-${c}-100 text-${c}-900 py-24 w-100 min-h-[90vh] flex flex-col items-center`}>
 
 			{/* HEADER */}
-			<div className={`px-10 py-5 rounded bg-${c}-200 text-center max-w-[80vw] space-y-3`}>
+			<div className={`px-2 py-5 rounded bg-${c}-200 text-center max-w-[80vw] space-y-3`}>
 				<h1 className='font-semibold text-4xl'>{opt.title}</h1>
 				<p className='px-6 text-xl'>{opt.desc}</p>
 			</div>
@@ -145,8 +147,9 @@ export const Recommender = ({ props }) => {
 				`}
 					onClick = {()=>{
 						if (selected !== "") {
-							let rec = opt.recommend(selected);
-							set_output(rec);
+							let out = opt.recommend(selected);
+							// console.log(out)
+							set_output(out);
 						}
 					}}
 				>Recommend / Find Similar Ones</button>
@@ -165,14 +168,113 @@ export const Recommender = ({ props }) => {
 				flex flex-col justify-center items-center space-y-5
 			`}>
 				
-				<h1 className={`text-2xl bg-${c}-300 px-10 py-3 my-3 rounded`}>Recommendations for:<br></br><b>{selected}</b></h1>
+				<div className={` bg-${c}-300 px-10 py-3 my-3 rounded space-y-3`}>
+					<h1 className='text-2xl'>
+						Recommendations for:<br></br><b>{selected}</b>
+					</h1>
+					{opt.imgs && 
+						<img className='mx-auto' src={opt.imgs[opt.titles.indexOf(selected)]} alt="" />
+					}
+					{opt.infos &&
+						<div>{Object.keys(opt.infos[opt.titles.indexOf(selected)]).map((key, i)=>{return (
+							<div key={i}>
+								<b>{key}:</b> {opt.infos[opt.titles.indexOf(selected)][key]}
+							</div>
+						)})}</div>
+					}
+				</div>
 				
-				<div className='w-[90vw] sm:w-[40vw] space-y-10 py-5 text-center'>
-					{output.map((o, i)=>{
+				<div className='w-[100%] py-5 text-center'>
+					{output.recs.map((o, i)=>{
+						return (
+							<div className={`
+								border-t-[1px] border-${c}-900
+								flex justify-evenly items-center py-10
+								flex-col
+								sm:flex-row
+							`} key={i}>
+
+								{opt.imgs && 
+									<img className='w-[50%] my-3 sm:w-[20%]' src={output.imgs[i]} alt="not found" />
+								}
+
+								<div className="space-y-4 sm:w-[70%]">
+
+									<div className='space-y-2'>
+										<div className='font-semibold text-2xl'> {o[0]} </div>
+
+										{opt.infos && <>
+											{Object.keys(output.infos[i]).map((key, j)=>{return (
+												<div className='' key={j}>
+													<b>{key}:</b> {output.infos[i][key]}
+												</div>
+											)})}
+										</>}
+										<div className='text-lg'>[ Similarity Score: <b>{o[1]}%</b> ]</div></div>
+									<div className={`bg-${c}-100 flex rounded-sm px-[1px] py-[1px] items-center w-[90%] mx-auto space-x-2 border border-${c}-900`}>
+										<div
+										className={`h-[20px] rounded-sm bg-${c}-600`}
+										style={{width: `${o[1]}%`}}
+										></div>
+									</div>
+									
+								</div>
+
+							</div>
+
+						
+						)
+					})}
+					{/* {output.map((o, i)=>{
 						return (
 						<div key={i} className="w-100 space-y-2">
 							<div>
 								<span className='font-semibold text-2xl'> {o[0]} </span>
+								<br />
+								<span>{output.infos[i].map((info, i)=>{return (
+									<span>
+										{Object.keys(info)[i]}: {Object.values(info)[i]}
+									</span>
+								)})}</span>
+								<br />
+								<span className='text-lg'>[ Similarity Score: <b>{o[1]}%</b> ]</span></div>
+							<div className={`bg-${c}-100 flex rounded-sm px-[1px] py-[1px] items-center w-[90%] mx-auto space-x-2 border border-${c}-900`}>
+								<div
+								className={`h-[20px] rounded-sm bg-${c}-600`}
+								style={{width: `${o[1]}%`}}
+								></div>	
+							</div>
+						</div>)
+					})} */}
+				</div>
+			</div>}
+
+
+			{/* {output && 
+			<div className={`
+				w-[95%] sm:w-[60%]
+				bg-${c}-200 rounded-xl
+				text-${c}-900
+				border border-${c}-900
+				text-center
+				my-10 py-16 px-10
+				flex flex-col justify-center items-center space-y-5
+			`}>
+				
+				<h1 className={`text-2xl bg-${c}-300 px-10 py-3 my-3 rounded`}>Recommendations for:<br></br><b>{selected}</b></h1>
+				
+				<div className='w-[90vw] sm:w-[40vw] space-y-10 py-5 text-center'>
+					{output.recs.map((o, i)=>{
+						return (
+						<div key={i} className="w-100 space-y-2">
+							<div>
+								<span className='font-semibold text-2xl'> {o[0]} </span>
+								<br />
+								<span>{output.infos[i].map((info, i)=>{return (
+									<span>
+										{Object.keys(info)[i]}: {Object.values(info)[i]}
+									</span>
+								)})}</span>
 								<br />
 								<span className='text-lg'>[ Similarity Score: <b>{o[1]}%</b> ]</span></div>
 							<div className={`bg-${c}-100 flex rounded-sm px-[1px] py-[1px] items-center w-[90%] mx-auto space-x-2 border border-${c}-900`}>
@@ -184,7 +286,7 @@ export const Recommender = ({ props }) => {
 						</div>)
 					})}
 				</div>
-			</div>}
+			</div>} */}
 		</div>
 	</>)
 }

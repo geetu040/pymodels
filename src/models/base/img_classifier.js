@@ -10,6 +10,8 @@ export default class ImgClassifier extends Base {
 		this.img_format = img_format;
 		this.total_imgs = total_imgs;
 
+		this.type = "img_classifier";
+
 		this.load_imgs();
 	}
 	load_imgs () {

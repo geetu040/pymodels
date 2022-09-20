@@ -15,11 +15,18 @@ import {
 // MODELS
 import CatAndDog from "./models/cat_and_dog";
 import MovieRec from "./models/movie_rec";
+import BookRec from "./models/book_rec"
 
 // CREATING MODEL INSTANCES
-const options = {
-	"cat_and_dog": new CatAndDog(),
-	"movie_rec": new MovieRec(),
+const models = [
+	new CatAndDog(),
+	new MovieRec(),
+	new BookRec(),
+]
+
+const options = {}
+for (let i in models) {
+	options[models[i].name] = models[i];
 }
 
 // MAIN APP
@@ -43,23 +50,29 @@ export default function App() {
 		c, set_c,
 	}
 
-	return (<BrowserRouter>
+	return (<BrowserRouter> <Routes>
 
-		{/* <Navbar props={props} /> */}
-		<Routes>
-			<Route path="/" element={<>
-				<Navbar props={props} />
-				<Home props={props} />
-			</>}/>
-			<Route path="/cat_and_dog" element={<>
-				<Navbar props={props} />
-				<ImgClassifier props={props} />
-			</>}/>
-			<Route path="/movie_rec" element={<>
-				<Navbar props={props} />
-				<Recommender props={props} />
-			</>}/>
-		</Routes>
+		<Route path="/" element={<>
+			<Navbar props={props} />
+			<Home props={props} />
+		</>}/>
 
-	</BrowserRouter>);
+		{models.map((model, i)=>{ return (
+
+			<Route key={i} path={`/${model.name}`} element={<>
+				<Navbar props={props} />
+
+				{model.type === "img_classifier" &&
+					<ImgClassifier props={props} />
+				}
+				{model.type === "recommender" &&
+					<Recommender props={props} />
+				}
+
+			</>}/>
+
+		)})}
+
+
+	</Routes> </BrowserRouter>);
 }

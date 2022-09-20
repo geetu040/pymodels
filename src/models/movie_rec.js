@@ -1,5 +1,5 @@
 import Recommender from "./base/recommender";
-import data from "./src/data.json"
+import data from "./src/movie_rec_data.json"
 
 export default class MovieRec extends Recommender {
 	constructor () {
